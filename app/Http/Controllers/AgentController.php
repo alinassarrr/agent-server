@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class AgentController extends Controller
@@ -36,4 +37,28 @@ class AgentController extends Controller
     function getFirst(Request $request){
         return Agent::where('plan', $request->plan)->first();
     }
-}
+
+     function load (){
+        echo "Agents :";
+        foreach(Agent::where('plan','free')->cursor()as $agent){
+            echo "{$agent->name}, ";
+        }
+     }
+
+     function limit(Request $request){
+            $agents = Agent::cursor()->filter(function(Agent $agent) use($request){
+                return $agent->max_prompts > $request->max_prompts;
+            });
+            return $agents->all();
+     }
+
+     function firstOr(){
+         $agent =Agent::firstOrCreate(['name'=>'first Agent']);
+            return response()->json($agent);
+     }
+     function destroy(Request $request){
+        Agent::destroy($request->id);
+        return response()->json(['message' => 'Agent deleted']);
+    }
+    
+}   

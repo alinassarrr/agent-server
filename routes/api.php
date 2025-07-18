@@ -9,6 +9,10 @@ Route::post("/addDefault", [AgentController::class,"addDefault"]); // add with d
 
 Route::get("/all", [AgentController::class,"all"]); // get all
 Route::get("/view/{id}", [AgentController::class,"find"]); // get specific with id
-Route::post("/free", [AgentController::class,"getFirst"]); // get first free
+Route::post("/first", [AgentController::class,"getFirst"]); // get first free
+Route::get("/load", [AgentController::class,"load"]); // load huge datsets
 
+Route::post("/limit", [AgentController::class,"limit"]); // load huge datsets
+Route::post("/firstOr", [AgentController::class,"firstOr"]);
 
+Route::post("/destroy",[AgentController::class,"destroy"]);
